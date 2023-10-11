@@ -1,7 +1,7 @@
 namespace DotnetAuthYetAnother.Api.Configuration;
 
 
-public class JwtConfiguration
+public class JwtConfig
 {
     public string Secret { get; set; } = string.Empty;
 }
