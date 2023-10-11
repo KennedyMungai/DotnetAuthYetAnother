@@ -1,6 +1,8 @@
 using System.Text;
 using DotnetAuthYetAnother.Api.Configuration;
+using DotnetAuthYetAnother.Api.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +15,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig").GetSection("Secret"));
-
+builder.Services.AddDbContext<FormulaOneDbContext>(options =>
+{
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("FormulaOneDbContext"),
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("FormulaOneDbContext"))
+    );
+});
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
