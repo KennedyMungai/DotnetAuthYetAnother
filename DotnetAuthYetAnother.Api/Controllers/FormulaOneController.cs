@@ -78,4 +78,27 @@ public class FormulaOneController : ControllerBase
 
         return await Task.FromResult(Accepted(updatedItem));
     }
+
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> DeleteOneEntry(int id)
+    {
+        var item = _service.GetDataById(id);
+
+        if (item is null)
+        {
+            return await Task.FromResult(NotFound("The item of id " + id + " was not found"));
+        }
+
+        var isDeleted = await _service.DeleteData(id);
+
+        if (!isDeleted)
+        {
+            return await Task.FromResult(BadRequest("Failed to delete entry of id " + id));
+        }
+
+        return await Task.FromResult(NoContent());
+    }
 }
