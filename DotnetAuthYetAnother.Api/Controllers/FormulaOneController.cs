@@ -18,10 +18,26 @@ public class FormulaOneController : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ReadDataDto>))]
     public async Task<ActionResult<IEnumerable<ReadDataDto>>> GetAllInfo([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
     {
         var data = await _service.GetAllData(page, pageSize);
 
         return await Task.FromResult(Ok(data));
+    }
+
+    [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReadDataDto))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ReadDataDto>> GetOneEntry(int id)
+    {
+        var item = _service.GetDataById(id);
+
+        if (item is null)
+        {
+            return await Task.FromResult(NotFound("The data entry with id " + id + " was not found"));
+        }
+
+        return await Task.FromResult(Ok(item));
     }
 }
