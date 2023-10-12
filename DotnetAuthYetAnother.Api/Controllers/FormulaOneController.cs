@@ -18,9 +18,9 @@ public class FormulaOneController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ReadDataDto>>> GetAllInfo()
+    public async Task<ActionResult<IEnumerable<ReadDataDto>>> GetAllInfo([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
     {
-        var data = await _service.GetAllData();
+        var data = await _service.GetAllData(page, pageSize);
 
         return await Task.FromResult(Ok(data));
     }
