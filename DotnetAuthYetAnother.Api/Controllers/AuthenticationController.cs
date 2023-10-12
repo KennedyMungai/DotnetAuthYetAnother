@@ -24,6 +24,8 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost("Register")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Register([FromBody] UserRegistrationRequestDto requestDto)
     {
         if (!ModelState.IsValid)
