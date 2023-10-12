@@ -1,6 +1,7 @@
 using System.Text;
 using DotnetAuthYetAnother.Api.Configuration;
 using DotnetAuthYetAnother.Api.Data;
+using DotnetAuthYetAnother.Api.Repositories.FormulaOneRepositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -13,6 +14,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IFormulaOneCRUDService, FormulaOneCRUDService>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig").GetSection("Secret"));
 builder.Services.AddDbContext<FormulaOneDbContext>(options =>
