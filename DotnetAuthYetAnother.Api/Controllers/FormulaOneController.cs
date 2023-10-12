@@ -50,7 +50,7 @@ public class FormulaOneController : ControllerBase
 
         if (!(item.GetType() == typeof(ReadDataDto)))
         {
-            return await Task.FromResult(BadRequest("The data entry could not be entered"));
+            return await Task.FromResult(BadRequest("The data could not be entered"));
         }
 
         return await Task.FromResult(CreatedAtAction("GetOneEntry", new { id = item.Id }, item));
