@@ -1,5 +1,6 @@
 using Bogus;
 using DotnetAuthYetAnother.Api.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +24,22 @@ public class FormulaOneDbContext : IdentityDbContext
                             .RuleFor(m => m.Name, f => f.Company.CompanyName())
                             .RuleFor(m => m.Country, f => f.Address.Country())
                             .RuleFor(m => m.TeamPrinciple, f => f.Company.CatchPhrase());
+
+        builder
+            .Entity<IdentityUserLogin<string>>()
+            .HasNoKey();
+
+        builder
+            .Entity<IdentityUserClaim<string>>()
+            .HasNoKey();
+
+        builder
+            .Entity<IdentityUserRole<string>>()
+            .HasNoKey();
+
+        builder
+            .Entity<IdentityUserToken<string>>()
+            .HasNoKey();
 
         builder
             .Entity<TeamModel>()
