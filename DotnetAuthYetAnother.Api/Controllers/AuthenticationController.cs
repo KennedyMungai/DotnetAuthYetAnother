@@ -63,7 +63,13 @@ public class AuthenticationController : ControllerBase
             }));
         }
 
-        // TODO: Generate the user tokens
+        var token = GenerateJwtToken(newUser);
+
+        return await Task.FromResult(Ok(new AuthResults()
+        {
+            Token = token,
+            Result = true
+        }));
     }
 
     private string GenerateJwtToken(IdentityUser user)
