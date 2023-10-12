@@ -75,6 +75,58 @@ public class AuthenticationController : ControllerBase
         }));
     }
 
+    [HttpPost("Login")]
+    public async Task<IActionResult> Login([FromBody] UserLoginRequestDto requestDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return await Task.FromResult(BadRequest(new AuthResults()
+            {
+                Errors = new List<string>()
+                {
+                    "Invalid Credentials"
+                },
+                Result = false
+            }));
+        }
+
+        var userExists = await _userManager.FindByEmailAsync(requestDto.Email);
+
+        if (userExists is null)
+        {
+            return await Task.FromResult(Unauthorized(new AuthResults()
+            {
+                Errors = new List<string>()
+                {
+                    "Invalid credentials"
+                },
+                Result = false
+            }));
+        }
+
+        var isCorrectPassword = BCrypt.Net.BCrypt.Verify(requestDto.Password, userExists.PasswordHash);
+
+        if (isCorrectPassword is false)
+        {
+            return await Task.FromResult(Unauthorized(new AuthResults()
+            {
+                Errors = new List<string>()
+                {
+                    "Invalid Credentials"
+                },
+                Result = false
+            }));
+        }
+
+        var jwtToken = GenerateJwtToken(userExists);
+
+        return await Task.FromResult(Ok(new AuthResults()
+        {
+            Token = jwtToken,
+            Result = true
+        }));
+    }
+
     private string GenerateJwtToken(IdentityUser user)
     {
         var jwtTokenHandler = new JwtSecurityTokenHandler();
