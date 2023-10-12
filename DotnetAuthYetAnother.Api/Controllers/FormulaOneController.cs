@@ -55,4 +55,24 @@ public class FormulaOneController : ControllerBase
 
         return await Task.FromResult(CreatedAtAction("GetOneEntry", new { id = item.Id }, item));
     }
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult<ReadDataDto>> UpdateOneEntry(int id, UpdateDataDto data)
+    {
+        var item = await _service.GetDataById(id);
+
+        if (item is null)
+        {
+            return await Task.FromResult(NotFound("The item of id " + id + " was not found"));
+        }
+
+        var updatedItem = _service.UpdateData(id, data);
+
+        if (updatedItem is null)
+        {
+            return await Task.FromResult(BadRequest("Failed to update entry of id " + id));
+        }
+
+        return await Task.FromResult(Accepted(updatedItem));
+    }
 }
