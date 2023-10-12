@@ -44,7 +44,7 @@ public class FormulaOneController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CreateOneEntry(CreateDataDto data)
+    public async Task<ActionResult<ReadDataDto>> CreateOneEntry(CreateDataDto data)
     {
         var item = _service.CreateData(data);
 
