@@ -57,6 +57,9 @@ public class FormulaOneController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status202Accepted)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ReadDataDto>> UpdateOneEntry(int id, UpdateDataDto data)
     {
         var item = await _service.GetDataById(id);
