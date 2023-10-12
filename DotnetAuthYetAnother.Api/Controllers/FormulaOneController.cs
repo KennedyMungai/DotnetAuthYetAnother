@@ -27,7 +27,7 @@ public class FormulaOneController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReadDataDto))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ReadDataDto>> GetOneEntry(int id)
     {
@@ -39,5 +39,20 @@ public class FormulaOneController : ControllerBase
         }
 
         return await Task.FromResult(Ok(item));
+    }
+
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> CreateOneEntry(CreateDataDto data)
+    {
+        var item = _service.CreateData(data);
+
+        if (!(item.GetType() == typeof(ReadDataDto)))
+        {
+            return await Task.FromResult(BadRequest("The data entry could not be entered"));
+        }
+
+        return await Task.FromResult(CreatedAtAction("GetOneEntry", new { id = item.Id }, item));
     }
 }
