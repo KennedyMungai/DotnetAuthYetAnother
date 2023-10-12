@@ -1,8 +1,12 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using DotnetAuthYetAnother.Api.Configuration;
 using DotnetAuthYetAnother.Api.Models;
 using DotnetAuthYetAnother.Api.Models.Dtos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DotnetAuthYetAnother.Api.Controllers;
 
@@ -60,5 +64,32 @@ public class AuthenticationController : ControllerBase
         }
 
         // TODO: Generate the user tokens
+    }
+
+    private string GenerateJwtToken(IdentityUser user)
+    {
+        var jwtTokenHandler = new JwtSecurityTokenHandler();
+
+        var key = Encoding.UTF8.GetBytes(_config.Secret);
+
+        // Token Descriptor
+        var tokenDescriptor = new SecurityTokenDescriptor()
+        {
+            Subject = new ClaimsIdentity(new Claim[]{
+                new Claim("Id", user.Id),
+                new Claim(JwtRegisteredClaimNames.Sub, user!.Email),
+                new Claim(JwtRegisteredClaimNames.Email, user!.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString())
+            }),
+            Expires = DateTime.UtcNow.AddHours(1),
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        };
+
+        var token = jwtTokenHandler.CreateToken(tokenDescriptor);
+
+        var jwtToken = jwtTokenHandler.WriteToken(token);
+
+        return jwtToken;
     }
 }
