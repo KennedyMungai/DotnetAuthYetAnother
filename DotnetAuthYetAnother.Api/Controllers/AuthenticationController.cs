@@ -76,6 +76,8 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost("Login")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Login([FromBody] UserLoginRequestDto requestDto)
     {
         if (!ModelState.IsValid)
