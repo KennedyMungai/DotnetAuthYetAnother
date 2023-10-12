@@ -3,6 +3,7 @@ using DotnetAuthYetAnother.Api.Configuration;
 using DotnetAuthYetAnother.Api.Data;
 using DotnetAuthYetAnother.Api.Repositories.FormulaOneRepositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -44,6 +45,12 @@ builder.Services.AddAuthentication(options =>
         RequireExpirationTime = false, //TODO Change to true on deployment
         ValidateLifetime = true
     };
+});
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.SignIn.RequireConfirmedEmail = false;
+    options.SignIn.RequireConfirmedPhoneNumber = false;
 });
 
 var app = builder.Build();
