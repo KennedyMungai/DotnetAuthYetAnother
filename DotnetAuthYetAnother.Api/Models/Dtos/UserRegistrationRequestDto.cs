@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 namespace DotnetAuthYetAnother.Api.Models.Dtos;
 
 
-public class UserRegistrationRequest
+public class UserRegistrationRequestDto
 {
     [Required]
     public string Name { get; set; } = string.Empty;
