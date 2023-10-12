@@ -17,7 +17,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IFormulaOneCRUDService, FormulaOneCRUDService>();
 builder.Services.AddAutoMapper(typeof(Program));
-builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig").GetSection("Secret"));
+builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"));
 builder.Services.AddDbContext<FormulaOneDbContext>(options =>
 {
     options.UseMySql(

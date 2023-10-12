@@ -14,10 +14,11 @@ namespace DotnetAuthYetAnother.Api.Controllers;
 [Route("api/[controller]")]
 public class AuthenticationController : ControllerBase
 {
+    private readonly IConfiguration _config;
     private readonly UserManager<IdentityUser> _userManager;
-    private readonly JwtConfig _config;
+    // private readonly JwtConfig _config;
 
-    public AuthenticationController(UserManager<IdentityUser> userManager, JwtConfig config)
+    public AuthenticationController(UserManager<IdentityUser> userManager, IConfiguration config)
     {
         _userManager = userManager;
         _config = config;
@@ -78,7 +79,7 @@ public class AuthenticationController : ControllerBase
     {
         var jwtTokenHandler = new JwtSecurityTokenHandler();
 
-        var key = Encoding.UTF8.GetBytes(_config.Secret);
+        var key = Encoding.UTF8.GetBytes(_config.GetSection("JwtConfig:Secret").Value);
 
         // Token Descriptor
         var tokenDescriptor = new SecurityTokenDescriptor()
