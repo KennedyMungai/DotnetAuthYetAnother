@@ -18,8 +18,8 @@ builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfi
 builder.Services.AddDbContext<FormulaOneDbContext>(options =>
 {
     options.UseMySql(
-        builder.Configuration.GetConnectionString("FormulaOneDbContext"),
-        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("FormulaOneDbContext"))
+        builder.Configuration.GetConnectionString("DefaultConnString"),
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnString"))
     );
 });
 builder.Services.AddAuthentication(options =>
