@@ -23,7 +23,7 @@ public class AuthenticationController : ControllerBase
         _config = config;
     }
 
-    [HttpPost("{Register}")]
+    [HttpPost("Register")]
     public async Task<IActionResult> Register([FromBody] UserRegistrationRequestDto requestDto)
     {
         if (!ModelState.IsValid)
