@@ -1,11 +1,12 @@
 using DotnetAuthYetAnother.Api.Models.Dtos;
 using DotnetAuthYetAnother.Api.Repositories.FormulaOneRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace DotnetAuthYetAnother.Api.Controllers;
 
-
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class FormulaOneController : ControllerBase
