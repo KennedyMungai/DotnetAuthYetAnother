@@ -153,6 +153,16 @@ public class AuthenticationController : ControllerBase
 
         var jwtToken = jwtTokenHandler.WriteToken(token);
 
+        var refreshToken = new RefreshTokens()
+        {
+            JwtId = token.Id,
+            Token = jwtToken,
+            AddedDate = DateTime.UtcNow.AddMonths(6),
+            IsRevoked = false,
+            IsUsed = false,
+            UserId = user.Id
+        };
+
         var results = new AuthResults()
         {
             Token = jwtToken,
