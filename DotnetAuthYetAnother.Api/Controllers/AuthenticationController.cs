@@ -157,7 +157,7 @@ public class AuthenticationController : ControllerBase
         var refreshToken = new RefreshTokens()
         {
             JwtId = token.Id,
-            Token = "",     // The refresh token
+            Token = RandomStringGeneration(500),     // The refresh token
             AddedDate = DateTime.UtcNow.AddMonths(6),
             IsRevoked = false,
             IsUsed = false,
