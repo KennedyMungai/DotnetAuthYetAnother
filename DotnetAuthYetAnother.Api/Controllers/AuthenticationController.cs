@@ -170,7 +170,7 @@ public class AuthenticationController : ControllerBase
         var results = new AuthResults()
         {
             Token = jwtToken,
-            RefreshToken = "",
+            RefreshToken = refreshToken.Token,
             Result = true
         };
 
