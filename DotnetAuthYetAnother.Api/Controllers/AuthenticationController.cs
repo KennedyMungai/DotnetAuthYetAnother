@@ -65,13 +65,13 @@ public class AuthenticationController : ControllerBase
             }));
         }
 
-        var token = GenerateJwtToken(newUser);
+        // var token = GenerateJwtToken(newUser);
 
-        return await Task.FromResult(Ok(new AuthResults()
-        {
-            Token = token,
-            Result = true
-        }));
+        // return await Task.FromResult(Ok(new AuthResults()
+        // {
+        //     Token = token,
+        //     Result = true
+        // }));
     }
 
     [HttpPost("Login")]
