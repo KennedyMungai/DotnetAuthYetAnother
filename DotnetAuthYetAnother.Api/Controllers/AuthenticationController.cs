@@ -17,16 +17,18 @@ public class AuthenticationController : ControllerBase
     private readonly IConfiguration _config;
     private readonly UserManager<IdentityUser> _userManager;
     private readonly FormulaOneDbContext _context;
+    private readonly TokenValidationParameters _tokenValidationParameters;
 
     public AuthenticationController(
         UserManager<IdentityUser> userManager,
         IConfiguration config,
-        FormulaOneDbContext context
-    )
+        FormulaOneDbContext context,
+        TokenValidationParameters tokenValidationParameters)
     {
         _userManager = userManager;
         _config = config;
         _context = context;
+        _tokenValidationParameters = tokenValidationParameters;
     }
 
     [HttpPost("Register")]
