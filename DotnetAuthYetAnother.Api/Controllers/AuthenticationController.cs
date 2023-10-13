@@ -76,11 +76,7 @@ public class AuthenticationController : ControllerBase
 
         var token = GenerateJwtToken(newUser);
 
-        return await Task.FromResult(Ok(new AuthResults()
-        {
-            Token = token,
-            Result = true
-        }));
+        return await Task.FromResult(Ok(token));
     }
 
     [HttpPost("Login")]
@@ -128,17 +124,12 @@ public class AuthenticationController : ControllerBase
             }));
         }
 
-        var jwtToken = GenerateJwtToken(userExists);
+        var results = GenerateJwtToken(userExists);
 
-        return await Task.FromResult(Ok(new AuthResults()
-        {
-            Token = jwtToken,
-            RefreshToken = "",
-            Result = true
-        }));
+        return await Task.FromResult(Ok(results));
     }
 
-    private string GenerateJwtToken(IdentityUser user)
+    private AuthResults GenerateJwtToken(IdentityUser user)
     {
         var jwtTokenHandler = new JwtSecurityTokenHandler();
 
@@ -162,6 +153,13 @@ public class AuthenticationController : ControllerBase
 
         var jwtToken = jwtTokenHandler.WriteToken(token);
 
-        return jwtToken;
+        var results = new AuthResults()
+        {
+            Token = jwtToken,
+            RefreshToken = "",
+            Result = true
+        };
+
+        return results;
     }
 }
