@@ -75,7 +75,7 @@ public class AuthenticationController : ControllerBase
             }));
         }
 
-        var token = GenerateJwtToken(newUser);
+        var token = await GenerateJwtToken(newUser);
 
         return await Task.FromResult(Ok(token));
     }
@@ -125,7 +125,7 @@ public class AuthenticationController : ControllerBase
             }));
         }
 
-        var results = GenerateJwtToken(userExists);
+        var results = await GenerateJwtToken(userExists);
 
         return await Task.FromResult(Ok(results));
     }
