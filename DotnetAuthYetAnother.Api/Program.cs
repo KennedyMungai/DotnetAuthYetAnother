@@ -18,6 +18,18 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IFormulaOneCRUDService, FormulaOneCRUDService>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"));
+
+var key = builder.Configuration.GetSection("JwtConfig").GetSection("Secret").Value;
+var tokenValidationParameters = new TokenValidationParameters()
+{
+    ValidateIssuerSigningKey = true,
+    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key!)),
+    ValidateIssuer = false, //TODO: Change to true on deployment
+    ValidateAudience = false, //TODO Change to true on deployment
+    RequireExpirationTime = false, //TODO Change to true on deployment
+    ValidateLifetime = true
+};
+
 builder.Services.AddDbContext<FormulaOneDbContext>(options =>
 {
     options.UseMySql(
@@ -32,19 +44,8 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(jwt =>
 {
-    var key = builder.Configuration.GetSection("JwtConfig").GetSection("Secret").Value;
-
     jwt.SaveToken = true;
-
-    jwt.TokenValidationParameters = new TokenValidationParameters()
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key!)),
-        ValidateIssuer = false, //TODO: Change to true on deployment
-        ValidateAudience = false, //TODO Change to true on deployment
-        RequireExpirationTime = false, //TODO Change to true on deployment
-        ValidateLifetime = true
-    };
+    jwt.TokenValidationParameters = tokenValidationParameters;
 });
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
