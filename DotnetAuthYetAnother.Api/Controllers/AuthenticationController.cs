@@ -1,7 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using DotnetAuthYetAnother.Api.Configuration;
 using DotnetAuthYetAnother.Api.Models;
 using DotnetAuthYetAnother.Api.Models.Dtos;
 using Microsoft.AspNetCore.Identity;
