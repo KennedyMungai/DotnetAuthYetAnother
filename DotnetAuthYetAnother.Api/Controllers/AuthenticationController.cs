@@ -15,7 +15,6 @@ public class AuthenticationController : ControllerBase
 {
     private readonly IConfiguration _config;
     private readonly UserManager<IdentityUser> _userManager;
-    // private readonly JwtConfig _config;
 
     public AuthenticationController(UserManager<IdentityUser> userManager, IConfiguration config)
     {
