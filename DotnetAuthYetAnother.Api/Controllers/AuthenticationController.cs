@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -129,7 +130,7 @@ public class AuthenticationController : ControllerBase
         return await Task.FromResult(Ok(results));
     }
 
-    private AuthResults GenerateJwtToken(IdentityUser user)
+    private async Task<AuthResults> GenerateJwtToken(IdentityUser user)
     {
         var jwtTokenHandler = new JwtSecurityTokenHandler();
 
@@ -163,6 +164,9 @@ public class AuthenticationController : ControllerBase
             UserId = user.Id
         };
 
+        await _context.RefreshTokens.AddAsync(refreshToken);
+        await _context.SaveChangesAsync();
+
         var results = new AuthResults()
         {
             Token = jwtToken,
@@ -170,6 +174,6 @@ public class AuthenticationController : ControllerBase
             Result = true
         };
 
-        return results;
+        return await Task.FromResult(results);
     }
 }
