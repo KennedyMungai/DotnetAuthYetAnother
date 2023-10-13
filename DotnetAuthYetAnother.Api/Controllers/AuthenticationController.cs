@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using DotnetAuthYetAnother.Api.Data;
 using DotnetAuthYetAnother.Api.Models;
 using DotnetAuthYetAnother.Api.Models.Dtos;
 using Microsoft.AspNetCore.Identity;
@@ -15,11 +16,17 @@ public class AuthenticationController : ControllerBase
 {
     private readonly IConfiguration _config;
     private readonly UserManager<IdentityUser> _userManager;
+    private readonly FormulaOneDbContext _context;
 
-    public AuthenticationController(UserManager<IdentityUser> userManager, IConfiguration config)
+    public AuthenticationController(
+        UserManager<IdentityUser> userManager,
+        IConfiguration config,
+        FormulaOneDbContext context
+    )
     {
         _userManager = userManager;
         _config = config;
+        _context = context;
     }
 
     [HttpPost("Register")]
