@@ -23,7 +23,8 @@ public class AuthenticationController : ControllerBase
         UserManager<IdentityUser> userManager,
         IConfiguration config,
         FormulaOneDbContext context,
-        TokenValidationParameters tokenValidationParameters)
+        TokenValidationParameters tokenValidationParameters
+    )
     {
         _userManager = userManager;
         _config = config;
@@ -132,6 +133,7 @@ public class AuthenticationController : ControllerBase
         return await Task.FromResult(Ok(new AuthResults()
         {
             Token = jwtToken,
+            RefreshToken = "",
             Result = true
         }));
     }
