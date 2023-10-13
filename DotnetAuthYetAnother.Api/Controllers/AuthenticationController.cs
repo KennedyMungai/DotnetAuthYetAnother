@@ -176,4 +176,13 @@ public class AuthenticationController : ControllerBase
 
         return await Task.FromResult(results);
     }
+
+    private string RandomStringGeneration(int length)
+    {
+        Random random = new();
+
+        var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        return new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
+    }
 }
