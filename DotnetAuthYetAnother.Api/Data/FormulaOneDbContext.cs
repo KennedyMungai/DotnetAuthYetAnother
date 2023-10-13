@@ -14,6 +14,7 @@ public class FormulaOneDbContext : IdentityDbContext
     }
 
     public DbSet<TeamModel> TeamModels { get; set; }
+    public DbSet<RefreshTokens> RefreshTokens { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
