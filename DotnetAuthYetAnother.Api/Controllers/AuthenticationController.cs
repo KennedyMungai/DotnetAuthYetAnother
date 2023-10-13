@@ -50,7 +50,8 @@ public class AuthenticationController : ControllerBase
         {
             Email = requestDto.Email,
             UserName = requestDto.Email,
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword(requestDto.Password)
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(requestDto.Password),
+            EmailConfirmed = false
         };
 
         var isCreated = await _userManager.CreateAsync(newUser);
